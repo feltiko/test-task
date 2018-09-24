@@ -26,10 +26,12 @@ class Item extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.data.select !== prevState.selectValue || nextProps.data.number !== prevState.numberValue) {
-      editItem(nextProps.dispatch, nextProps.data.id, {
-        select: prevState.selectValue,
-        number: prevState.numberValue,
-      });
+      if (nextProps.store.items.canChange) {
+        editItem(nextProps.dispatch, nextProps.data.id, {
+          select: prevState.selectValue,
+          number: prevState.numberValue,
+        });
+      }
 
       return { prevState };
     } else {

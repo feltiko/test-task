@@ -8,7 +8,10 @@ import {
 } from '../../Constants/action-types';
 import { items as initialState } from '../../State';
 
+let buffer = null;
+
 const itemsReducer = (state = initialState, action) => {
+  console.log(action.type);
   switch (action.type) {
     case ITEM_ADD: {
       const data = state.data;
@@ -25,13 +28,13 @@ const itemsReducer = (state = initialState, action) => {
       const { id, data } = action.payload;
       const itemsData = state.data;
       const index = itemsData.findIndex((val) => val.id === id);
-      const newItem = {
+      const updItem = {
         id,
         select: data.select,
         number: data.number,
       };
 
-      itemsData[index] = newItem;
+      itemsData[index] = updItem;
 
       return { ...state, data: itemsData };
     }
@@ -42,19 +45,24 @@ const itemsReducer = (state = initialState, action) => {
       return { ...state, data: removedArr };
     }
     case ITEMS_CANCEL_EDIT: {
-      const data = state.buffer;
+      const data = buffer;
+      const oldData = Object.keys(data).map((val) => ({
+        id: data[val].id,
+        select: data[val].select,
+        number: data[val].number,
+      }));
 
-      return { data, buffer: data };
+      return { ...state, canChange: false, data: oldData };
     }
     case ITEMS_MODAL_OPEN: {
-      const buffer = state.data.slice(0);
+      buffer = Object.assign({}, state.data);
 
-      return { data: state.data, buffer };
+      return { data: state.data, canChange: true };
     }
     case ITEMS_SAVE: {
       const data = state.data;
 
-      return { data, buffer: null };
+      return { data };
     }
     default: {
       return state;

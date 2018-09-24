@@ -21,5 +21,5 @@ export const items = {
       number: 14,
     },
   ],
-  buffer: null,
+  canChange: false,
 }
