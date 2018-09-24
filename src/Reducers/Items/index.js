@@ -11,7 +11,6 @@ import { items as initialState } from '../../State';
 let buffer = null;
 
 const itemsReducer = (state = initialState, action) => {
-  console.log(action.type);
   switch (action.type) {
     case ITEM_ADD: {
       const data = state.data;
