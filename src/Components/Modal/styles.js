@@ -14,7 +14,9 @@ export default () => ({
     minWidth: 400,
   },
   dialogActions: {
-    flexDirection: 'row-reverse',
+    justifyContent: 'flex-start',
+    margin: '8px 24px',
+    padding: '0 0 24px',
   },
   addNewButton: {
     padding: 0,

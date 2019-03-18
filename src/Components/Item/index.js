@@ -24,23 +24,17 @@ class Item extends Component {
     numberValue: this.props.data ? this.props.data.number : '',
   };
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.data.select !== prevState.selectValue || nextProps.data.number !== prevState.numberValue) {
-      if (nextProps.store.items.canChange) {
-        editItem(nextProps.dispatch, nextProps.data.id, {
-          select: prevState.selectValue,
-          number: prevState.numberValue,
-        });
-      }
-
-      return { prevState };
-    } else {
-      return { prevState };
-    }
-  }
-
   handleChange = (field) => (e) => {
-    this.setState({ [field]: e.target.value });
+    const { dispatch, data } = this.props;
+
+    this.setState({ [field]: e.target.value }, () => {
+      const { selectValue, numberValue } = this.state;
+
+      editItem(dispatch, data.id, {
+        select: selectValue,
+        number: numberValue,
+      });
+    })
   };
 
   render() {

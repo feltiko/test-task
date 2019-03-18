@@ -11,8 +11,9 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import { Close } from '@material-ui/icons';
 import { saveItems, removeItem, addItem } from '../../Actions/Items';
-import styles from './styles';
 import Item from '../Item';
+
+import styles from './styles';
 
 class NumberStructureModal extends Component {
   static propTypes = {
@@ -36,10 +37,10 @@ class NumberStructureModal extends Component {
   };
 
   render() {
-    const { isActive, classes, items: { data }} = this.props;
+    const { isActive, classes, items: { data } } = this.props;
 
     return (
-      <Dialog open={isActive} onClose={this.handleClose}>
+      <Dialog open={isActive} className={classes.modal} onClose={this.handleClose}>
         <DialogTitle>
           <Typography className={classes.modalTitle} gutterBottom>
             Some title text
@@ -49,19 +50,19 @@ class NumberStructureModal extends Component {
           </Typography>
         </DialogTitle>
         <DialogContent className={classes.modalContent}>
-          {data &&
-            data.length &&
-            data.map((val) => <Item key={val.id} data={val} removeHandler={() => this.handleRemove(val.id)} />)}
+          {data && data.length ? (
+            data.map((val) => <Item key={val.id} data={val} removeHandler={() => this.handleRemove(val.id)} />)
+          ) : <div>No items found</div>}
           <Button disableRipple={true} color="primary" className={classes.addNewButton} onClick={this.handleAdd}>
             Add new item
           </Button>
         </DialogContent>
         <DialogActions className={classes.dialogActions}>
-          <Button onClick={this.handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={this.handleSave} color="primary">
+          <Button variant="contained" onClick={this.handleSave} color="primary">
             Save
+          </Button>
+          <Button onClick={this.handleClose} color="default">
+            Cancel
           </Button>
         </DialogActions>
       </Dialog>
